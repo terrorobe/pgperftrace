@@ -3,19 +3,21 @@
 package Builder;
 use Moose;
 use Data::Dumper;
+use Carp;
+
 has 'release' => (is => 'rw', isa => 'Str');
-has 'target' => (is => 'rw', isa => 'Str');
-has 'configure-opts' => (is => 'rw', isa => 'Str', default => 'spartaaa');
+has 'build_dir' => (is => 'rw', isa => 'Str');
+has 'configure_opts' => (is => 'rw', isa => 'Str', default => 'spartaaa');
 
 sub BUILD {
     my ($self, $params) = @_;
-# FIXME: Option validation goes here...
+    croak "build-dir " . $self->build_dir, " already exists" if (-e $self->build_dir);
+    croak "release must be of form... FIXME" unless ($self->release =~ m/(REL\d_\d|HEAD)/);
 }
 
 
 sub buildrelease {
     my $self = shift;
-    print Dumper $self;
     print "I would build ", $self->release, "\n";
 }
 
@@ -36,7 +38,7 @@ use Carp;
 my %opt;
 
 GetOptions(\%opt,
-        'target:s',
+        'build-dir:s',
         'release:s',
         'configure-opts:s'
 ) or pod2usage( -verbose => 0 );
@@ -48,8 +50,8 @@ if ( $mode eq 'build' ) {
 
 # FIXME: Huebscher?
     my %buildopts;
-    @buildopts{'release', 'target'} = @opt{'release', 'target'};
-    $buildopts{'configure-opts'} = $opt{'configure-opts'} if $opt{'configure-opts'};
+    @buildopts{'release', 'build_dir'} = @opt{'release', 'build-dir'};
+    $buildopts{'configure_opts'} = $opt{'configure-opts'} if $opt{'configure-opts'};
     my $builder = Builder->new( %buildopts );
 
     $builder->buildrelease;
