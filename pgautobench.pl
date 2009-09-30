@@ -5,9 +5,9 @@ use Moose;
 use Data::Dumper;
 use Carp;
 
-has 'release' => (is => 'rw', isa => 'Str');
-has 'build_dir' => (is => 'rw', isa => 'Str');
-has 'configure_opts' => (is => 'rw', isa => 'Str', default => 'spartaaa');
+has 'release' => (is => 'ro', isa => 'Str');
+has 'build_dir' => (is => 'ro', isa => 'Str');
+has 'configure_opts' => (is => 'ro', isa => 'Str', default => 'spartaaa');
 
 sub BUILD {
     my ($self, $params) = @_;
@@ -18,6 +18,13 @@ sub BUILD {
 
 sub buildrelease {
     my $self = shift;
+# ./run_build --keepall --test <BRANCH>
+# Needs some hacking up:
+# *) Build target directroy
+# *) return codes?
+# *) configure via cmdline
+# *) wipe config file alltogether?
+
     print "I would build ", $self->release, "\n";
 }
 
