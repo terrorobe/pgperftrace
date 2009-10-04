@@ -1,7 +1,6 @@
 package BenchJob;
 
 use Moose;
-use Carp;
 
 
 # FIXME - squeeze dependency - switch to more history type of method calling validation?
@@ -23,8 +22,6 @@ sub add_job {
 #
     my ($self, %params) = @_;;
 
-# Delete empty config opts FIXME
-    delete($params{'config_opts'}) if (exists $params{'config_opts'} && ! $params{'config_opts'});
 # Look ma, no validation!
 
     push @jobs, \%params;
@@ -35,7 +32,6 @@ sub add_job {
 sub get_jobs {
 
     return @jobs;
-
 }
 
 1;

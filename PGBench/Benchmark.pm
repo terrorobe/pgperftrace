@@ -1,7 +1,6 @@
 package Benchmark;
 
 use Moose;
-use Carp;
 
 has 'name' => (is => 'ro', isa => 'Str');
 has 'build_dir' => (is => 'ro', isa => 'Str');

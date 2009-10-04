@@ -7,15 +7,9 @@ use warnings;
 use Getopt::Long;
 use Data::Dumper;
 
-use Carp;
-
-
 use PGBench::Types;
-
 use PGBench::BenchJob;
-
 use PGBench::Builder;
-
 use PGBench::BenchDirector;
 
 
@@ -30,17 +24,6 @@ GetOptions(\%opt,
 
 my ( $mode ) = @ARGV;
 
-if ( $mode eq 'build' ) {
-    print "building!\n";
-
-# FIXME: Huebscher?
-    my %buildopts;
-    @buildopts{'release', 'build_dir'} = @opt{'release', 'build-dir'};
-    $buildopts{'configure_opts'} = $opt{'configure-opts'} if $opt{'configure-opts'};
-    my $builder = Builder->new( %buildopts );
-
-    $builder->buildrelease;
-}
 
 if ( $mode eq 'job' ) {
 
