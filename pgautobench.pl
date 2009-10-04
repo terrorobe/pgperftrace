@@ -1,9 +1,6 @@
 #!/usr/bin/perl
 
 
-
-package main;
-
 use strict;
 use warnings;
 
@@ -11,6 +8,9 @@ use Getopt::Long;
 use Data::Dumper;
 
 use Carp;
+
+
+use PGBench::Builder;
 
 
 my %opt;
@@ -38,5 +38,3 @@ if ( $mode eq 'build' ) {
 sub pod2usage {
         print "You failed!\n";
 }
-
-1;

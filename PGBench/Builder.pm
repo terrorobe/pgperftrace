@@ -16,14 +16,14 @@ sub BUILD {
 
 sub buildrelease {
     my $self = shift;
-# ./run_build --keepall --test <BRANCH>
-# Needs some hacking up:
-# *) Build target directroy
-# *) return codes?
-# *) configure via cmdline
-# *) wipe config file alltogether?
+    my $command = "build_farm/run_build.pl --build-only --build-root " . '$FIXME->build_root' . " --build-target " . $self->build_dir . " " . $self->release;
+    print "I would run $command\n";
+#my $output = qx/$command/;
+    my $rc = $? >> 8;
+    if ( $rc != 0 ){
+        croak "fail!";
+    }
 
-    print "I would build ", $self->release, "\n";
 }
 
 1;
