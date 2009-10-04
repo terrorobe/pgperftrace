@@ -101,7 +101,9 @@ my $from_source_clean;
 my $testmode;
 my $skip_steps;
 my $find_typedefs;
-
+my $build_root;
+my $build_target;
+my $config_opts;
 
 GetOptions('nosend' => \$nosend, 
 		   'config=s' => \$buildconf,
@@ -113,11 +115,15 @@ GetOptions('nosend' => \$nosend,
 		   'ipcclean' => \$ipcclean,
 		   'verbose:i' => \$verbose,
 		   'nostatus' => \$nostatus,
-		   'test' => \$testmode,
+		   'build-only|test' => \$testmode,
 		   'help' => \$help,
 		   'quiet' => \$quiet,
 		   'skip-steps=s' => \$skip_steps,
-		   'multiroot' => \$multiroot)
+		   'multiroot' => \$multiroot,
+                   'build-root=s' => \$build_root,
+                   'config-opts=s' => \$config_opts,
+                   'build-target=s' => \$build_target,
+                   )
 	|| die "bad command line";
 
 die "only one of --from-source and --from-source-clean allowed"
@@ -154,6 +160,12 @@ print_help() if ($help);
 #
 require $buildconf ;
 
+
+# Apply getopt overrides if there are any
+
+$PGBuild::conf{'build_root'} = $build_root if ($build_root);
+
+
 # get the config data into some local variables
 my ($buildroot,$target,$animal, $print_success, $aux_path, $trigger_filter,
 	$secret, $keep_errs, $force_every, $make, $cvs_timeout_secs,
@@ -176,7 +188,9 @@ if (ref($force_every) eq 'HASH')
 	$force_every = $force_every->{$branch};
 }
 
-my $config_opts = $PGBuild::conf{config_opts};
+# Only pull config_opts from the conf file if it's not defined already
+$config_opts = $PGBuild::conf{config_opts} unless ($config_opts);
+
 my $cvsserver = $PGBuild::conf{cvsrepo} || 
 	":pserver:anoncvs\@anoncvs.postgresql.org:/projects/cvsroot";
 my $buildport = $PGBuild::conf{branch_ports}->{$branch} || 5999;
@@ -370,7 +384,7 @@ unless ($using_msvc)
 
 # the time we take the snapshot
 my $now=time;
-my $installdir = "$buildroot/$branch/inst";
+my $installdir = $build_target ? $build_target : "$buildroot/$branch/inst";
 my $dbstarted;
 
 my %ignore_file = ();
@@ -730,7 +744,13 @@ usage: $0 [options] [branch]
   --verbose[=n]             = verbosity (default 1) 2 or more = huge output.
   --quiet                   = suppress normal error message 
   --ipcclean                = clean up shared memory on failure
-  --test                    = short for --nosend --nostatus --verbose --force
+  --test or --build-only    = short for --nosend --nostatus --verbose --force
+  --build-target            = alternative installation path for build. Won't
+                              get removed automatically
+
+ Overrides for config file options:
+  --build-root
+  --config-opts
 
 Default branch is HEAD. Usually only the --config option should be necessary.
 
