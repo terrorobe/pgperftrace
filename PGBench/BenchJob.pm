@@ -21,11 +21,13 @@ sub add_job {
 #            benchmarks => { isa => 'ArrayRef[BenchName]'},
 #            ); 
 #
-    my ($self, $params) = @_;;
+    my ($self, %params) = @_;;
 
+# Delete empty config opts FIXME
+    delete($params{'config_opts'}) if (exists $params{'config_opts'} && ! $params{'config_opts'});
 # Look ma, no validation!
 
-    push @jobs, $params;
+    push @jobs, \%params;
 
     return;
 }

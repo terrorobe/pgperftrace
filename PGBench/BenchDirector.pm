@@ -6,7 +6,7 @@ use Carp;
 use PGBench::Builder;
 use PGBench::BenchJob;
 
-has 'benchJobs' => (is => 'ro', isa => 'PGBench::BenchJob');
+has 'benchJobs' => (is => 'ro', isa => 'BenchJob');
 has 'bench_root_dir' => (is => 'ro', isa => 'Str', default => '/srv/pgperftrace');
 
 sub BUILD {
@@ -28,7 +28,6 @@ sub start_run {
 
         build_release($self, $job->{'release'}, $job->{'config_opts'});
 
-
     }
 }
 
@@ -37,12 +36,15 @@ sub build_release {
 
     my ($self, $release, $config_opts) = @_;
 
-    my $builder = Builder->new(
+    my %build_opts = (
             release => $release,
-            configure_opts => $config_opts,
             buildfarm_dir => $self->bench_root_dir . '/build_farm/',
             build_dir => $self->bench_root_dir . "/built_pg/$release",
             );
+
+    $build_opts{'configure_opts'} = $config_opts if ($config_opts);
+
+    my $builder = Builder->new( %build_opts );
 
     $builder->buildrelease();
 }

@@ -51,15 +51,13 @@ if ( $mode eq 'job' ) {
             benchmarks => 'sysbench', # FIXME 
             );
 
-    print Dumper $job;
     my $director = BenchDirector->new(
             benchJobs => $job,
             bench_root_dir => $opt{'bench-root-dir'},
             );
 
+
     $director->start_run();
-
-
 }
 
 sub pod2usage {

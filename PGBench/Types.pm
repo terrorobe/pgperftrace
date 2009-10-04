@@ -5,7 +5,7 @@ use Carp;
 
 use Moose::Util::TypeConstraints;
 
-type 'PgBranch'
+type 'PgBranchName'
         => where { m/^(REL\d_\d_STABLE|HEAD)$/ }
         => message { "String '$_' doesn't look like a Pg branch name" };
 
