@@ -11,7 +11,7 @@ has 'version' => (is => 'ro', isa => 'Str');
 sub BUILD {
     my ($self, $params) = @_;
 
-    my $command = $self->binpath . "/postgres --version";
+    my $command = $self->binpath . "/bin/postgres --version";
     my $version = qx/$command/;
     chomp $version;
     $self->version = $version;
