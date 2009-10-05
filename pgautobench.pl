@@ -8,7 +8,7 @@ use Getopt::Long;
 use Data::Dumper;
 
 use PGBench::Types;
-use PGBench::BenchJob;
+use PGBench::JobList;
 use PGBench::Builder;
 use PGBench::BenchDirector;
 
@@ -27,15 +27,18 @@ my ( $mode ) = @ARGV;
 
 if ( $mode eq 'job' ) {
 
-    my $job = BenchJob->new();
-    $job->add_job(
+    my $joblist = JobList->new();
+    $joblist->add_job(
             release => $opt{'release'},
             config_opts => $opt{'configure-opts'},
-            benchmarks => 'sysbench', # FIXME 
+            benchmarks => ['sysbench'], # FIXME 
             );
 
+    use Data::Dumper;
+    print Dumper $joblist;
+
     my $director = BenchDirector->new(
-            benchJobs => $job,
+            benchJobs => $joblist,
             bench_root_dir => $opt{'bench-root-dir'},
             );
 
