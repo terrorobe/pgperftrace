@@ -6,12 +6,12 @@ use File::Path qw(rmtree);
 
 
 has 'binpath' => (is => 'ro', isa => 'ExistingDir', required => 1);
-has 'version' => (is => 'ro', isa => 'Str', optional => 1);
+has 'version' => (is => 'ro', isa => 'Str');
 
 sub BUILD {
     my ($self, $params) = @_;
 
-    my $command = "$binpath/postgres --version";
+    my $command = $self->binpath . "/postgres --version";
     my $version = qx/$command/;
     chomp $version;
     $self->version = $version;

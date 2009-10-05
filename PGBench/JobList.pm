@@ -4,6 +4,7 @@ use Moose;
 
 use PGBench::BenchJob;
 
+# FIXME: Type check not working?
 has 'jobs' => (is => 'rw', isa => 'ArrayRef[BenchJob]', default => sub { [] });
 
 sub add_job {

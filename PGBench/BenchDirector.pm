@@ -12,11 +12,8 @@ has 'bench_root_dir' => (is => 'ro', isa => 'ExistingDir', default => '/srv/pgpe
 sub start_run {
     my $self = shift;
 
-    use Data::Dumper;
-    print Dumper $self;
     for my $job (@{$self->benchJobs->jobs}) {
 
-        print Dumper $job;
         build_release($self, $job->release, $job->config_opts);
 
     }

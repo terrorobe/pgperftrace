@@ -2,6 +2,8 @@ package Builder;
 
 use Moose;
 
+use PGBench::DatabaseBuild;
+
 has 'release' => (is => 'ro', isa => 'PgBranchName');
 has 'build_dir' => (is => 'ro', isa => 'NonExistingDir');
 has 'buildfarm_dir' => (is => 'ro', isa => 'ExistingDir');
@@ -27,6 +29,8 @@ sub buildrelease {
         confess "fail!";
     }
 
+# FIXME: Totally wrong here
+    my $database = DatabaseBuild->new(binpath => $self->build_dir);
 }
 
 1;

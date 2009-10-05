@@ -34,9 +34,6 @@ if ( $mode eq 'job' ) {
             benchmarks => ['sysbench'], # FIXME 
             );
 
-    use Data::Dumper;
-    print Dumper $joblist;
-
     my $director = BenchDirector->new(
             benchJobs => $joblist,
             bench_root_dir => $opt{'bench-root-dir'},
