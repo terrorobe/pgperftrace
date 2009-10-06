@@ -18,6 +18,11 @@ sub start_run {
                 configure_opts => $job->config_opts
                 );
 
+        $database->createInstance(
+                port => 5432,
+                datapath => '/srv/raid0/lala',
+                );
+
     }
 }
 

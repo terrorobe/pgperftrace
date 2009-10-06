@@ -11,7 +11,9 @@ use PGBench::Types;
 use PGBench::JobList;
 use PGBench::Builder;
 use PGBench::BenchDirector;
+use PGBench::Config;
 
+use vars qw( $Config );
 
 my %opt;
 
@@ -23,6 +25,7 @@ GetOptions(\%opt,
 ) or pod2usage( -verbose => 0 );
 
 my ( $mode ) = @ARGV;
+
 
 
 if ( $mode eq 'job' ) {

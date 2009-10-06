@@ -2,6 +2,7 @@ package Database;
 
 use Moose;
 
+use PGBench::Builder;
 
 
 has 'release' => (is => 'ro', isa => 'PgBranchName', required => 1);
@@ -17,9 +18,18 @@ sub BUILD {
 
 }
 
-sub _build_release {
 
-    my ($self) = @_;
+sub createInstance {
+    my $self = shift;
+
+    my %opts = @_;
+    
+
+
+}
+
+sub _build_release {
+    my $self = shift;
 
     my %build_opts = ( release => $self->release );
 
