@@ -36,7 +36,6 @@ if ( $mode eq 'job' ) {
 
     my $director = BenchDirector->new(
             benchJobs => $joblist,
-            bench_root_dir => $opt{'bench-root-dir'},
             );
 
 
