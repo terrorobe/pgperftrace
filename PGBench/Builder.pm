@@ -18,7 +18,7 @@ has 'buildfarm_dir' => (is => 'ro', isa => 'ExistingDir', required => 1,
         }
         );
 
-sub buildrelease {
+sub buildRelease {
     my $self = shift;
 
 # FIXME: Directory handling

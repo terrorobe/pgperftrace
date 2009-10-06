@@ -4,18 +4,20 @@
 use strict;
 use warnings;
 
+
 use Getopt::Long;
 use Data::Dumper;
 
+
 use PGBench::Types;
 use PGBench::JobList;
-use PGBench::Builder;
 use PGBench::BenchDirector;
 use PGBench::Config;
 
 use vars qw( $Config );
 
 my %opt;
+
 
 GetOptions(\%opt,
         'build-dir=s',

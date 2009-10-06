@@ -3,7 +3,7 @@ package Database;
 use Moose;
 
 use PGBench::Builder;
-
+use PGBench::DatabaseInstance;
 
 has 'release' => (is => 'ro', isa => 'PgBranchName', required => 1);
 has 'configure_opts' => (is => 'ro', isa => 'Maybe[Str]');
@@ -14,7 +14,7 @@ sub BUILD {
 
     my ($self, $params) = @_;
 
-    $self->build = _build_release($self);
+    _createBuild($self);
 
 }
 
@@ -22,22 +22,20 @@ sub BUILD {
 sub createInstance {
     my $self = shift;
 
-    my %opts = @_;
-    
+    my $instance = DatabaseInstance->new(@_);
 
-
+    $self->instance($instance);
 }
 
-sub _build_release {
+sub _createBuild {
     my $self = shift;
 
     my %build_opts = ( release => $self->release );
 
     $build_opts{'configure_opts'} = $self->configure_opts if ($self->configure_opts);
 
-    my $builder = Builder->new( %build_opts );
-
-    $self->build = $builder->buildrelease();
+    my $build = Builder->new( %build_opts )->buildRelease();
+    $self->build($build);
 }
 
 1;
