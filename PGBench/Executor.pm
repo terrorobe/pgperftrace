@@ -4,8 +4,8 @@ use Moose;
 use Cwd;
 
 has 'verbose' => (is => 'ro', isa => 'Bool', default => 1);
-has 'rc' => (is => 'ro', isa => 'Num');
-has 'output' => (is => 'ro', isa => 'Str');
+has 'rc' => (is => 'rw', isa => 'Num');
+has 'output' => (is => 'rw', isa => 'Str');
 has 'changeWD' => (is => 'ro', isa => 'ExistingDir');
 
 
@@ -13,7 +13,7 @@ sub runCommand {
     my $self = shift;
     my $command = shift;
 
-    my ($rc, $output) = _execute($command);
+    my ($rc, $output) = $self->_execute($command);
 
     $self->rc($rc);
     $self->output($output);

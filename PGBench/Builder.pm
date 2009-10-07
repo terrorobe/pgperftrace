@@ -28,10 +28,10 @@ sub buildRelease {
 
     if (-d $self->build_dir) {
         if (-e $postmaster ) {
-            my $postmaster_age = time - stat($postmaster)[9];
+            my $postmaster_age = time - ( stat($postmaster) )[9];
             if ( $postmaster_age <= $self->freshness ) {
-                print "Using existing build only $postmasteR_age seconds old!\n";
-                return DatabaseBuild->new(binpath => $self->build_dir);
+                print "Using existing build, only $postmaster_age seconds old!\n";
+                return DatabaseBuild->new(buildpath => $self->build_dir);
             }
             print "Wiping out stale build_dir: " . $self->build_dir . "\n";
             rmtree($self->build_dir);
@@ -42,7 +42,7 @@ sub buildRelease {
 
     $self->_doBuild();
 
-    return DatabaseBuild->new(binpath => $self->build_dir);
+    return DatabaseBuild->new(buildpath => $self->build_dir);
 }
 
 
