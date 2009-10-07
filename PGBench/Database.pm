@@ -20,9 +20,11 @@ sub BUILD {
 
 
 sub createInstance {
-    my $self = shift;
+    my ($self, %opts) = @_;
 
-    my $instance = DatabaseInstance->new(@_);
+    $opts{'build'} = $self->build;
+
+    my $instance = DatabaseInstance->new(%opts);
 
     $self->instance($instance);
 }
