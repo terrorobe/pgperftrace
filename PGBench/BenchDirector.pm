@@ -19,10 +19,20 @@ sub start_run {
                 );
 
         $database->createInstance(
-                port => 5432,
+                port => 54321,
                 datapath => '/srv/raid0/lala',
+                pg_configuration => ({
+                    log_min_duration_statement => 42,
+                    max_connections => 1234,
+                    }
+                    ),
                 );
 
+        use Data::Dumper;
+
+        print $database->build->version . "\n";
+
+        print Dumper $database;
     }
 }
 

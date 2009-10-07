@@ -2,6 +2,8 @@ package DatabaseBuild;
 
 use Moose;
 
+use PGBench::Executor;
+
 use File::Path qw(rmtree);
 
 
@@ -19,8 +21,13 @@ sub BUILD {
 sub _build_version {
     my $self = shift;
     my $command = $self->binpath . "postgres --version";
-    my $version = qx/$command/;
-    return chomp $version;
+    my $executor = Executor->new();
+    $executor-> runCommand($command);
+    if ($executor->rc) {
+        confess "I failed you!\n";
+    }
+    chomp(my $output = $executor->output);
+    return $output;
 }
 
 sub _build_binpath {
