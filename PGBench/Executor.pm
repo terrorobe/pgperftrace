@@ -8,6 +8,7 @@ has 'rc' => (is => 'rw', isa => 'Num');
 has 'output' => (is => 'rw', isa => 'Str');
 has 'confessOnError' => (is => 'rw', isa => 'Bool', default => 1);
 has 'changeWD' => (is => 'ro', isa => 'ExistingDir');
+has 'env' => (is => 'rw', isa => 'HashRef[Str]');
 
 
 sub runCommand {
@@ -33,9 +34,17 @@ sub runBatch {
 sub _execute {
     my ($self, $command) = @_;
 
+    my %originalENV;
     my $curWD = getcwd();
 
     chdir($self->changeWD) if $self->changeWD;
+
+    if ($self->env) {
+        %originalENV = %ENV;
+        for my $key (%{$self->env}) {
+            $ENV{$key} = $self->env->{$key};
+        }
+    }
 
     print "Running: $command\n" if $self->verbose;
 
@@ -43,6 +52,8 @@ sub _execute {
     my $rc = $? >> 8;
 
     chdir($curWD) unless $curWD eq getcwd();
+
+    %ENV = %originalENV if ($self->env);
 
     if ($rc && $self->confessOnError) {
         print "***\n\nExecution of '$command' returned RC '$rc'\n";

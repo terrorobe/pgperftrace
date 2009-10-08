@@ -33,7 +33,8 @@ sub start_run {
         print $database->build->version . "\n";
         print Dumper $database;
         $database->instance->startPostgres();
-        sleep(300);
+        print "Successfully started database. Sleeping\n";
+        sleep(60);
     }
 }
 

@@ -9,7 +9,6 @@ use File::Copy;
 use File::Slurp;
 
 has 'port' => (is => 'ro', isa => 'Num', required => 1);
-has 'socket' => (is => 'ro', isa => 'ExistingSocket');
 has 'build' => (is => 'ro', isa => 'DatabaseBuild', required => 1);
 has 'datapath' => (is => 'ro', isa => 'NonExistingDir', required => 1);
 has 'running' => (is => 'rw', isa => 'Bool');
@@ -106,11 +105,20 @@ sub _createConfig {
 sub startPostgres {
     my $self = shift;
 
-#FIXME: pg_ctl -w start is broken for nonstandard unix_socket_directory 
+    my $executor = Executor->new({
+            confessOnError => 0,
+            env => {PGHOST => $self->datapath},
+            });
 
-#my $command = $self->pg_ctl . ' -w -t 10 -l ' . $self->datapath . '/logfile start';
     my $command = $self->pg_ctl . ' -w -l ' . $self->datapath . '/logfile start';
-    Executor->new()->runCommand($command);
+    $executor->runCommand($command);
+
+    if ($executor->rc) {
+        print "Failed to start database, content of logfile follows.\n\n";
+        print read_file($self->datapath . '/logfile');
+        confess "Exiting";
+    }
+
     $self->running(1);
 }
 
