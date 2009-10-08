@@ -6,6 +6,7 @@ use Cwd;
 has 'verbose' => (is => 'ro', isa => 'Bool', default => 1);
 has 'rc' => (is => 'rw', isa => 'Num');
 has 'output' => (is => 'rw', isa => 'Str');
+has 'confessOnError' => (is => 'rw', isa => 'Bool', default => 1);
 has 'changeWD' => (is => 'ro', isa => 'ExistingDir');
 
 
@@ -42,6 +43,14 @@ sub _execute {
     my $rc = $? >> 8;
 
     chdir($curWD) unless $curWD eq getcwd();
+
+    if ($rc && $self->confessOnError) {
+        print "***\n\nExecution of '$command' returned RC '$rc'\n";
+        print "Output follows:\n\n";
+        print $output;
+        confess "Exiting";
+    }
+
     return ($rc, $output);
 }
 
