@@ -28,10 +28,7 @@ sub start_run {
                     ),
                 );
 
-        use Data::Dumper;
 
-        print $database->build->version . "\n";
-        print Dumper $database;
         $database->instance->startPostgres();
         print "Successfully started database. Sleeping\n";
         sleep(60);

@@ -9,7 +9,7 @@ use File::Copy;
 use File::Slurp;
 
 has 'port' => (is => 'ro', isa => 'Num', required => 1);
-has 'build' => (is => 'ro', isa => 'DatabaseBuild', required => 1);
+has 'build' => (is => 'ro', isa => 'DatabaseBuild', required => 1, handles => [qw(binpath)]);
 has 'datapath' => (is => 'ro', isa => 'NonExistingDir', required => 1);
 has 'running' => (is => 'rw', isa => 'Bool');
 has 'pg_ctl' => (is => 'rw', isa => 'Str');
@@ -22,7 +22,7 @@ sub BUILD {
 
     $self->pg_configuration->{'port'} = $self->port;
     $self->pg_configuration->{'unix_socket_directory'} = q(') . $self->datapath . q(');
-    $self->pg_ctl($self->build->binpath . 'pg_ctl -D ' . $self->datapath);
+    $self->pg_ctl($self->binpath . 'pg_ctl -D ' . $self->datapath);
 
     $self->_createCluster();
     $self->_createConfig();
@@ -34,15 +34,13 @@ sub _createCluster {
 
     my $executor = Executor->new();
 
-    my $command = $self->build->binpath . "initdb --pgdata " . $self->datapath;
+    my $command = $self->binpath . "initdb --pgdata " . $self->datapath;
     $executor->runCommand($command);
 
     if ($executor->rc) {
         print $executor->output . "\n";
         confess "I failed you!";
     }
-
-    print "I baked you a cluster with $command\n";
 }
 
 
@@ -138,7 +136,7 @@ sub DESTROY {
 
     if ($self->datapath && -d $self->datapath) {
         print "wiping " . $self->datapath . "\n";
-#        rmtree($self->datapath);
+        rmtree($self->datapath);
     }
 }
 
