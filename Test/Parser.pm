@@ -632,8 +632,8 @@ sub parse {
     # If it's a scalar and has newlines, it's probably the full text
     elsif (!ref($input) && $input =~ /\n/) {
         my @lines = split /\n/, $input;
-        while (shift @lines) {
-            $retval = $self->parse_line($_) || $retval;
+        for my $line (@lines) {
+            $retval = $self->parse_line($line) || $retval;
             last if $retval == END_OF_RECORD;
         }
     }
