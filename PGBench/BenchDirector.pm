@@ -14,22 +14,21 @@ sub start_run {
     for my $job (@{$self->benchJobs->jobs}) {
 
         my $database = Database->new(
-                release => $job->release,
-                configure_opts => $job->config_opts
+                branch => $job->db_branch,
+                configure_opts => $job->db_config
                 );
 
         $database->createInstance(
-                port => 54321,
-                datapath => '/srv/raid0/lala',
                 pg_configuration => ({
                     log_min_duration_statement => 42,
                     max_connections => 1234,
+                    shared_buffers => 8 * 1024,
                     }
                     ),
                 );
 
 
-        $database->instance->startPostgres();
+        $database->startPostgres();
         print "Successfully started database. Sleeping\n";
         sleep(60);
     }

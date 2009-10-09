@@ -18,6 +18,7 @@ use vars (%opt);
 
 %opt = (
         bench_root_dir => '/srv/pgbenchroot',
+        scratch_dir => '/srv/raid0',
        );
 
 1;

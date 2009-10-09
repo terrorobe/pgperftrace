@@ -20,7 +20,6 @@ my %opt;
 
 
 GetOptions(\%opt,
-        'build-dir=s',
         'release=s',
         'configure-opts=s',
         'bench-root-dir=s',
@@ -34,9 +33,9 @@ if ( $mode eq 'job' ) {
 
     my $joblist = JobList->new();
     $joblist->add_job(
-            release => $opt{'release'},
+            db_branch => $opt{'release'},
             config_opts => $opt{'configure-opts'},
-            benchmarks => ['sysbench'], # FIXME 
+            benchmark => 'sysbench',
             );
 
     my $director = BenchDirector->new(

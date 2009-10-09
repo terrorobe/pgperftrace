@@ -8,9 +8,9 @@ use File::Path qw(rmtree);
 use File::Copy;
 use File::Slurp;
 
-has 'port' => (is => 'ro', isa => 'Num', required => 1);
+has 'port' => (is => 'rw', isa => 'Num');
 has 'build' => (is => 'ro', isa => 'DatabaseBuild', required => 1, handles => [qw(binpath)]);
-has 'datapath' => (is => 'ro', isa => 'NonExistingDir', required => 1);
+has 'datapath' => (is => 'rw', isa => 'NonExistingDir');
 has 'running' => (is => 'rw', isa => 'Bool');
 has 'pg_ctl' => (is => 'rw', isa => 'Str');
 has 'pg_configuration' => (is => 'ro', isa => 'HashRef[Str]');
@@ -19,6 +19,11 @@ has 'initdb_options' => (is => 'ro', isa => 'Str');
 
 sub BUILD {
    my ($self, $params) = @_;
+
+# FIXME: Rather builder?
+    $self->port(_findFreePort()) unless ($self->port);
+    $self->datapath($Config::opt{'scratch_dir'} . '/cluster-' . $self->port) unless ($self->datapath);
+
 
     $self->pg_configuration->{'port'} = $self->port;
     $self->pg_configuration->{'unix_socket_directory'} = q(') . $self->datapath . q(');
@@ -99,6 +104,12 @@ sub _createConfig {
     return;
 }
 
+
+sub _findFreePort {
+
+# FIXME: Not always free ;)
+    return 54321;
+}
 
 sub startPostgres {
     my $self = shift;

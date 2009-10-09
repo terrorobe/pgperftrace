@@ -1,13 +1,22 @@
 package Benchmark;
 
-use Moose;
+use Moose::role;
 
-has 'name' => (is => 'ro', isa => 'BenchName');
-has 'prepare_commands' => (is => 'ro', isa => 'ArrayRef[Str]', optional => 1);
-has 'cleanup_commands' => (is => 'ro', isa => 'ArrayRef[Str]', optional => 1);
-has 'bench_commands' => (is => 'ro', isa => 'ArrayRef[Str]');
-has 'benchmark_outputfilter' => (is => 'ro', isa => 'CodeRef');
-has 'build_dir' => (is => 'ro', isa => 'Str');
-has 'db_config_opts' => (is => 'ro', isa => 'HashRef[Str]', optional => 1);
+has 'options' => (is => 'ro', isa => 'HashRef[Str]', required => 1);
+has 'result' => (is => 'rw', isa => 'HashRef[Str]');
+
+sub prepare {
+    confess "Prepare routine empty";
+}
+
+sub cleanup {
+    confess "Cleanup routine empty";
+}
+
+sub run {
+    confess "Run routine empty";
+}
+
+
 
 1;

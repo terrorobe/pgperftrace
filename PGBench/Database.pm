@@ -5,10 +5,10 @@ use Moose;
 use PGBench::Builder;
 use PGBench::DatabaseInstance;
 
-has 'release' => (is => 'ro', isa => 'PgBranchName', required => 1);
+has 'branch' => (is => 'ro', isa => 'PgBranchName', required => 1);
 has 'configure_opts' => (is => 'ro', isa => 'Maybe[Str]');
 has 'build' => (is => 'rw', isa => 'DatabaseBuild');
-has 'instance' => (is => 'rw', isa => 'DatabaseInstance');
+has 'instance' => (is => 'rw', isa => 'DatabaseInstance', handles => [qw(startPostgres)]);
 
 sub BUILD {
 
@@ -32,7 +32,7 @@ sub createInstance {
 sub _createBuild {
     my $self = shift;
 
-    my %build_opts = ( release => $self->release );
+    my %build_opts = ( release => $self->branch );
 
     $build_opts{'configure_opts'} = $self->configure_opts if ($self->configure_opts);
 
