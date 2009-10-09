@@ -34,8 +34,8 @@ sub start_run {
         }
 
 
-        require PGBench::Benchmark::sysbenchCPU;
-        my $benchmark = Benchmark::sysbenchCPU->new({
+        require PGBench::Benchmark::SysbenchCPU;
+        my $benchmark = Benchmark::SysbenchCPU->new({
                 binpath => '/opt/sysbench/bin',
                 threads => 4,
                 });

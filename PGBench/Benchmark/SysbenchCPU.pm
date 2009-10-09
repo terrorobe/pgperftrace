@@ -2,7 +2,9 @@ package Benchmark::sysbenchCPU;
 
 use Moose;
 
-with 'PGBench::Benchmark::sysbench';
+use Test::Parser::SysbenchCPU;
+
+with 'PGBench::Benchmark::Sysbench';
 
 has 'max_prime' => (is => 'ro', isa => 'Num', required => 1, lazy_build => 1);
 
