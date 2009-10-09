@@ -35,7 +35,7 @@ if ( $mode eq 'job' ) {
     $joblist->add_job(
             db_branch => $opt{'release'},
             config_opts => $opt{'configure-opts'},
-            benchmark => 'sysbench',
+            benchmark => 'sysbenchCPU',
             );
 
     my $director = BenchDirector->new(

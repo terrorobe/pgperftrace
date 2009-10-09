@@ -16,7 +16,7 @@ has 'build_dir' => (is => 'ro', isa => 'Str', required => 1,
         return $Config::opt{'bench_root_dir'} . '/built_pg/' . $self->{'release'};
         }
         );
-has 'buildfarm_dir' => (is => 'ro', isa => 'ExistingDir', required => 1,
+has 'buildfarm_dir' => (is => 'ro', isa => 'ExistingWritableDir', required => 1,
         lazy => 1, default => sub {
         return $Config::opt{'bench_root_dir'} . '/build_farm/';
         }

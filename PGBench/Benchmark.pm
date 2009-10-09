@@ -1,8 +1,10 @@
-package Benchmark;
+package PGBench::Benchmark;
 
-use Moose::role;
+use Moose::Role;
 
-has 'options' => (is => 'ro', isa => 'HashRef[Str]', required => 1);
+has 'options' => (is => 'ro', isa => 'HashRef[Str]', required => 1, default => sub { {} });
+has 'version' => (is => 'ro', isa => 'Str', required => 1, lazy_build => 1);
+has 'binpath' => (is => 'ro', isa => 'ExistingDir');
 has 'result' => (is => 'rw', isa => 'HashRef[Str]');
 
 sub prepare {

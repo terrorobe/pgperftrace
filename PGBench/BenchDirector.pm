@@ -13,24 +13,40 @@ sub start_run {
 
     for my $job (@{$self->benchJobs->jobs}) {
 
-        my $database = Database->new(
-                branch => $job->db_branch,
-                configure_opts => $job->db_config
-                );
+        my $database;
 
-        $database->createInstance(
-                pg_configuration => ({
-                    log_min_duration_statement => 42,
-                    max_connections => 1234,
-                    shared_buffers => 8 * 1024,
-                    }
-                    ),
-                );
+        if ( $job->db_branch ) {
+            $database = Database->new(
+                    branch => $job->db_branch,
+                    configure_opts => $job->db_config
+                    );
+
+            $database->createInstance(
+                    pg_configuration => ({
+                        log_min_duration_statement => 42,
+                        max_connections => 1234,
+                        shared_buffers => 8 * 1024,
+                        }
+                        ),
+                    );
+            $database->startPostgres();
+            print "Successfully started database. Sleeping\n";
+        }
 
 
-        $database->startPostgres();
-        print "Successfully started database. Sleeping\n";
-        sleep(60);
+        require PGBench::Benchmark::sysbenchCPU;
+        my $benchmark = Benchmark::sysbenchCPU->new({
+                binpath => '/opt/sysbench/bin',
+                threads => 4,
+                });
+
+        use Data::Dumper;
+        print Dumper $benchmark;
+
+        $benchmark->prepare();
+        $benchmark->run();
+        $benchmark->cleanup();
+
     }
 }
 
