@@ -38,6 +38,7 @@ sub start_run {
         my $benchmark = Benchmark::SysbenchCPU->new({
                 binpath => '/opt/sysbench/bin',
                 threads => 4,
+                max_requests => 1000,
                 });
 
         use Data::Dumper;

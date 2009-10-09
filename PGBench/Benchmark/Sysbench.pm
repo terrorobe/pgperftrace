@@ -1,4 +1,4 @@
-package PGBench::Benchmark::sysbench;
+package PGBench::Benchmark::Sysbench;
 
 use Moose::Role;
 

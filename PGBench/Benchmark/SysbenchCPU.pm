@@ -1,4 +1,4 @@
-package Benchmark::sysbenchCPU;
+package Benchmark::SysbenchCPU;
 
 use Moose;
 
@@ -40,6 +40,15 @@ sub run {
     $executor->runCommand($command);
 
     print "Output:\n\n" . $executor->output;
+
+    use Data::Dumper;
+
+    my $parser = new Test::Parser::SysbenchCPU;
+    my $text = $executor->output;
+    print Dumper $text;
+    $parser->parse($text) or confess "Failed: " . $parser->errors() . $parser->warnings();
+    print Dumper $parser->to_xml();
+    print Dumper $parser->data();
 
 }
 
