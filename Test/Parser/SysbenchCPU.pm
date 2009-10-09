@@ -82,7 +82,7 @@ sub data {
     if (@_) {
         $self->{data} = @_;
     }
-    return {sysbench => {data => $self->{data}}};
+    return {sysbench => {data => $self->{test}->{data}}};
 }
 
 
