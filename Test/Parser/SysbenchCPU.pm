@@ -111,7 +111,7 @@ sub parse_line {
         $size = 1;
     }
 
-    elsif ($line =~ /^sysbench v(.+):/) {
+    elsif ($line =~ /^sysbench v?(.+):/) {
         $self->testname('sysbench');
         $self->version($1);
     }
