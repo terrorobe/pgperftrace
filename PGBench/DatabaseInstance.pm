@@ -70,7 +70,7 @@ sub _createConfig {
         ^\s*        # Leading whitespace
         ([^\s=]+)   # Key
         \s*=\s*     # '='
-        ([^#]+)   # Value
+        ([^#]+)     # Value
         /x;
     
 
@@ -134,7 +134,7 @@ sub startPostgres {
 sub stopPostgres {
     my ($self, $immediate) = @_;
 
-    my $command = $self->pg_ctl . ' stop';
+    my $command = $self->pg_ctl . ' -w stop';
     $command .= ' -m immediate' if ($immediate);
 
     Executor->new()->runCommand($command);
