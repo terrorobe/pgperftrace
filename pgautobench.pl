@@ -34,8 +34,17 @@ if ( $mode eq 'job' ) {
     my $joblist = JobList->new();
     $joblist->add_job(
             db_branch => $opt{'release'},
-            config_opts => $opt{'configure-opts'},
-            benchmark => 'sysbenchCPU',
+            db_compile_config => $opt{'configure-opts'},
+            db_run_config => {
+                log_min_duration_statement => 42,
+                },
+            benchmark => 'SysbenchCPU',
+            benchmark_opts => {
+                threads => 10,
+                max_requests => 1000,
+                max_prime => 10000,
+                },
+ 
             );
 
     my $director = BenchDirector->new(

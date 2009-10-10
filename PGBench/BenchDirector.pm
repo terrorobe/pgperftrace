@@ -16,32 +16,14 @@ sub start_run {
         my $database;
 
         if ( $job->db_branch ) {
-            $database = Database->new(
-                    branch => $job->db_branch,
-                    configure_opts => $job->db_config
-                    );
-
-            $database->createInstance(
-                    pg_configuration => ({
-                        log_min_duration_statement => 42,
-                        max_connections => 1234,
-                        shared_buffers => 8 * 1024,
-                        }
-                        ),
-                    );
-            $database->startPostgres();
+            $database = $self->_createDatabase($job);
             print "Successfully started database. Sleeping\n";
-#            sleep(30);
+            sleep(30);
         }
 
-        if (1) {
-
-        my $benchtype = 'SysbenchCPU';
-        require PGBench::Benchmark::SysbenchCPU;
-        my $benchmark = Benchmark::SysbenchCPU->new({
-                threads => 4,
-                max_requests => 1000,
-                });
+        my $benchtype = $job->benchmark;
+        eval "require PGBench::Benchmark::$benchtype";
+        my $benchmark = "Benchmark::$benchtype"->new($job->benchmark_opts);
 
         use Data::Dumper;
         print Dumper $benchmark;
@@ -50,10 +32,23 @@ sub start_run {
         $benchmark->run();
         print Dumper $benchmark;
         $benchmark->cleanup();
-        }
-
     }
 }
 
+sub _createDatabase {
+    my ($self, $job) = @_;
+
+    my $database = Database->new(
+            branch => $job->db_branch,
+            configure_opts => $job->db_compile_config
+            );
+
+    $database->createInstance({
+            pg_configuration => $job->db_run_config,
+            });
+    $database->startPostgres();
+
+    return $database;
+}
 
 1;
