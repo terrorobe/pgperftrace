@@ -141,7 +141,7 @@ sub stopPostgres {
     $self->running(0);
 }
 
-sub DESTROY {
+sub DEMOLISH {
     my $self = shift;
     $self->stopPostgres(1) if ($self->running);
 

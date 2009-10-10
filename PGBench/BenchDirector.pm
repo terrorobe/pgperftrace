@@ -23,11 +23,9 @@ sub start_run {
 
         my $benchtype = $job->benchmark;
         eval "require PGBench::Benchmark::$benchtype";
-        my $benchmark = "Benchmark::$benchtype"->new($job->benchmark_opts);
+        my $benchmark = "PGBench::Benchmark::$benchtype"->new($job->benchmark_opts);
 
         use Data::Dumper;
-        print Dumper $benchmark;
-
         $benchmark->prepare();
         $benchmark->run();
         print Dumper $benchmark;
