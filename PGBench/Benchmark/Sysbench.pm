@@ -1,6 +1,8 @@
 package PGBench::Benchmark::Sysbench;
 
 use Moose::Role;
+use File::Which;
+use File::Basename;
 
 use PGBench::Executor;
 
@@ -51,6 +53,17 @@ sub _build_version {
     chomp(my $version = $executor->output);
 
     return $version;
+}
+
+sub _build_binpath {
+    my $self = shift;
+
+    return $Config::opt{'sysbench_dir'} if ($Config::opt{'sysbench_dir'});
+
+    my $executable = which('sysbench');
+    confess "Couldn't find sysbench executable" unless ($executable);
+
+    return dirname($executable);
 }
 
 sub _build_sysbench {

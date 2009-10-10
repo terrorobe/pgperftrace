@@ -31,12 +31,14 @@ sub start_run {
                     );
             $database->startPostgres();
             print "Successfully started database. Sleeping\n";
+#            sleep(30);
         }
 
+        if (1) {
 
+        my $benchtype = 'SysbenchCPU';
         require PGBench::Benchmark::SysbenchCPU;
         my $benchmark = Benchmark::SysbenchCPU->new({
-                binpath => '/opt/sysbench/bin',
                 threads => 4,
                 max_requests => 1000,
                 });
@@ -46,7 +48,9 @@ sub start_run {
 
         $benchmark->prepare();
         $benchmark->run();
+        print Dumper $benchmark;
         $benchmark->cleanup();
+        }
 
     }
 }
