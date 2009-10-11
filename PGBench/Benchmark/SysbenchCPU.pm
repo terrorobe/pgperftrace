@@ -11,6 +11,8 @@ has 'max_prime' => (is => 'ro', isa => 'Num', required => 1, lazy_build => 1);
 sub BUILD {
     my ($self, $params) = @_;
 
+    use Data::Dumper;
+    print Dumper $self;
     $self->bench_args($self->bench_args . ' --test=cpu'
             . ' --cpu-max-prime=' . $self->max_prime
             . ' run'

@@ -66,6 +66,7 @@ sub _build_binpath {
     return $Config::opt{'sysbench_dir'} if ($Config::opt{'sysbench_dir'});
 
     my $executable = which('sysbench');
+
     confess "Couldn't find sysbench executable" unless ($executable);
 
     return dirname($executable);
