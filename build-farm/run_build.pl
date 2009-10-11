@@ -189,7 +189,13 @@ if (ref($force_every) eq 'HASH')
 }
 
 # Only pull config_opts from the conf file if it's not defined already
-$config_opts = $PGBuild::conf{config_opts} unless ($config_opts);
+if ($config_opts) {
+    # This is expected to be an Arrayref
+    $config_opts = [$config_opts];
+}
+else {
+    $config_opts = $PGBuild::conf{config_opts};
+}
 
 my $cvsserver = $PGBuild::conf{cvsrepo} || 
 	":pserver:anoncvs\@anoncvs.postgresql.org:/projects/cvsroot";
