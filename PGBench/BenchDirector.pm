@@ -30,8 +30,6 @@ sub start_run {
         $benchmark->prepare();
         print "Running\n";
         $benchmark->run();
-        print "Panicking\n";
-        $benchmark->omg();
         print Dumper $benchmark;
         $benchmark->cleanup();
     }

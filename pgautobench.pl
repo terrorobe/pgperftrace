@@ -41,8 +41,8 @@ if ( $mode eq 'job' ) {
             benchmark => 'SysbenchCPU',
             benchmark_opts => {
                 threads => 10,
-                max_requests => 1000,
-                max_prime => 10000,
+                max_requests => 2000,
+                max_prime => 11000,
                 },
  
             );

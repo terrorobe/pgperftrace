@@ -9,9 +9,9 @@ use PGBench::Executor;
 with 'PGBench::Benchmark';
 
 has 'sysbench' => (is => 'ro', isa => 'ExecutableFile', required => 1, lazy_build => 1);
-has 'threads' => (is => 'ro', isa => 'Num', required => 1, lazy_build => 1);
-has 'max_requests' => (is => 'ro', isa => 'Num', required => 1, lazy_build => 1);
-has 'max_time' => (is => 'ro', isa => 'Num', required => 1, lazy_build => 1);
+has 'threads' => (is => 'ro', isa => 'Num', required => 1, default => 1);
+has 'max_requests' => (is => 'ro', isa => 'Num', required => 1, default => 10000);
+has 'max_time' => (is => 'ro', isa => 'Num', required => 1, default => 0);
 has 'bench_args' => (is => 'rw', isa => 'Str', required => 1, lazy_build => 1);
 has 'output' => (is => 'rw', isa => 'ArrayRef[Str]');
 
@@ -19,24 +19,6 @@ before 'parseOutput' => sub {
     my $self = shift;
     $self->parseOutputSysbenchGeneric();
 };
-
-sub _build_threads {
-    my $self = shift;
-
-    return $self->options->{'threads'} ? $self->options->{'threads'} : 1;
-}
-
-sub _build_max_requests {
-    my $self = shift;
-
-    return $self->options->{'max_requests'} ? $self->options->{'max_requests'} : 10000;
-}
-
-sub _build_max_time {
-    my $self = shift;
-
-    return $self->options->{'max_time'} ? $self->options->{'max_time'} : 0;
-}
 
 sub _build_bench_args {
     my $self = shift;
@@ -75,6 +57,7 @@ sub _build_binpath {
 sub _build_sysbench {
     my $self = shift;
 
+# FIXME: Find sysbench in path?
     my $command = $self->binpath . '/' if ($self->binpath);
     $command .= 'sysbench';
 
@@ -92,10 +75,6 @@ sub run {
     $self->result->successful_run($success);
 
     $self->parseOutput();
-}
-
-sub omg {
-    print "OMG!\n\n";
 }
 
 sub parseOutputSysbenchGeneric {

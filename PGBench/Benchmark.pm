@@ -3,7 +3,6 @@ package PGBench::Benchmark;
 use Moose::Role;
 use DateTime;
 
-has 'options' => (is => 'ro', isa => 'HashRef[Str]', required => 1, default => sub { {} });
 has 'version' => (is => 'ro', isa => 'Str', required => 1, lazy_build => 1);
 has 'binpath' => (is => 'ro', isa => 'ExistingDir', required => 1, lazy_build => 1);
 has 'result' => (is => 'rw', isa => 'Object');
