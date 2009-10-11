@@ -46,6 +46,12 @@ if ( $mode eq 'job' ) {
                 },
  
             );
+    $joblist->add_job(
+            benchmark => 'SysbenchMemory',
+            benchmark_opts => {
+                max_time => 5,
+                },
+            );
 
     my $director = BenchDirector->new(
             benchJobs => $joblist,
