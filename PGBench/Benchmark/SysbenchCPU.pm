@@ -11,8 +11,6 @@ has 'max_prime' => (is => 'ro', isa => 'Num', required => 1, lazy_build => 1);
 sub BUILD {
     my ($self, $params) = @_;
 
-    use Data::Dumper;
-    print Dumper $self;
     $self->bench_args($self->bench_args . ' --test=cpu'
             . ' --cpu-max-prime=' . $self->max_prime
             . ' run'
@@ -34,26 +32,12 @@ sub cleanup {
     return;
 }
 
-sub run {
-    my $self = shift;
-
-    my $executor = Executor->new(confessOnError => 0);
-    my $command = $self->sysbench . $self->bench_args;
-
-    my $success = $executor->runCommand($command);
-    $self->output(split /\n/, $output);
-    $self->parseOutput();
-
-    $self->result->successful_run($success);
+sub runn {
+    print "hi!\n";
 }
 
 sub parseOutput {
-    my ($self, $output) = @_;
-
-    my @lines = split /\n/, $output;
-
-
-
+    return;
 }
 
 1;

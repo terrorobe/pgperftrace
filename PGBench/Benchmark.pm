@@ -35,26 +35,10 @@ after 'cleanup' => sub {
     $self->prepared(0);
 };
 
-sub prepare {
-    confess "Prepare routine empty";
-}
-
-sub cleanup {
-    confess "Cleanup routine empty";
-}
-
-sub run {
-    confess "Run routine empty";
-}
-
-sub parseOutput {
-    confess "Output parsing routine empty";
-}
 
 sub DEMOLISH {
     my $self = shift;
     $self->cleanup() if ($self->prepared);
 }
-
 
 1;

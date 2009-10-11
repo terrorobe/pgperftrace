@@ -26,8 +26,12 @@ sub start_run {
         my $benchmark = "PGBench::Benchmark::$benchtype"->new($job->benchmark_opts);
 
         use Data::Dumper;
+        print "Preparing\n";
         $benchmark->prepare();
+        print "Running\n";
         $benchmark->run();
+        print "Panicking\n";
+        $benchmark->omg();
         print Dumper $benchmark;
         $benchmark->cleanup();
     }

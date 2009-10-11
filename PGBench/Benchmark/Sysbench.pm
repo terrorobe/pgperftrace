@@ -18,7 +18,7 @@ has 'output' => (is => 'rw', isa => 'ArrayRef[Str]');
 before 'parseOutput' => sub {
     my $self = shift;
     $self->parseOutputSysbenchGeneric();
-}
+};
 
 sub _build_threads {
     my $self = shift;
@@ -79,6 +79,23 @@ sub _build_sysbench {
     $command .= 'sysbench';
 
     return $command;
+}
+
+sub run {
+    my $self = shift;
+
+    my $executor = Executor->new(confessOnError => 0);
+    my $command = $self->sysbench . $self->bench_args;
+
+    my $success = $executor->runCommand($command);
+    $self->output([ split /\n/, $executor->output ]);
+    $self->result->successful_run($success);
+
+    $self->parseOutput();
+}
+
+sub omg {
+    print "OMG!\n\n";
 }
 
 sub parseOutputSysbenchGeneric {
