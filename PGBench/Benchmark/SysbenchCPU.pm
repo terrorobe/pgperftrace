@@ -39,11 +39,16 @@ sub run {
     my $command = $self->sysbench . $self->bench_args;
 
     my $success = $executor->runCommand($command);
-    $self->result->successful_run($success);
+    $self->output(split /\n/, $output);
+    $self->parseOutput();
 
+    $self->result->successful_run($success);
 }
 
 sub parseOutput {
+    my ($self, $output) = @_;
+
+    my @lines = split /\n/, $output;
 
 
 

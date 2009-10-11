@@ -13,7 +13,12 @@ has 'threads' => (is => 'ro', isa => 'Num', required => 1, lazy_build => 1);
 has 'max_requests' => (is => 'ro', isa => 'Num', required => 1, lazy_build => 1);
 has 'max_time' => (is => 'ro', isa => 'Num', required => 1, lazy_build => 1);
 has 'bench_args' => (is => 'rw', isa => 'Str', required => 1, lazy_build => 1);
+has 'output' => (is => 'rw', isa => 'ArrayRef[Str]');
 
+before 'parseOutput' => sub {
+    my $self = shift;
+    $self->parseOutputSysbenchGeneric();
+}
 
 sub _build_threads {
     my $self = shift;
@@ -75,5 +80,45 @@ sub _build_sysbench {
     return $command;
 }
 
+sub parseOutputSysbenchGeneric {
+    my $self = shift;
+
+    for my $line (@{$self->output}) {
+
+        if ($line =~ m/\s+total time:\s+([.\d]+)s/) {
+            $self->result->total_time($1);
+        }
+
+        elsif ($line =~ m/\s+total number of events:\s+(\d+)/) {
+            $self->result->total_num_events($1);
+        }
+
+        elsif ($line =~ m/\s+min:\s+([.\d]+)ms/) {
+            $self->result->per_req_min_dur($1);
+        }
+
+        elsif ($line =~ m/\s+avg:\s+([.\d]+)ms/) {
+            $self->result->per_req_avg_dur($1);
+        }
+
+        elsif ($line =~ m/\s+max:\s+([.\d]+)ms/) {
+            $self->result->per_req_max_dur($1);
+        }
+
+        elsif ($line =~ m/\s+approx\.\s+95 percentile:\s+([.\d]+)ms/) {
+            $self->result->per_req_95p_dur($1);
+        }
+
+        elsif ($line =~ m/\s+events[^:]+:\s+([.\d]+)\/([.\d]+)/) {
+            $self->result->per_thread_avg_events($1);
+            $self->result->per_thread_avg_events_stddev($2);
+        }
+
+        elsif ($line =~ m/\s+execution time[^:]+:\s+([.\d]+)\/([.\d]+)/) {
+            $self->result->per_thread_avg_time($1);
+            $self->result->per_thread_avg_time_stddev($2);
+        }
+    }
+}
 
 1;
