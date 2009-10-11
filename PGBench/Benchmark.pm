@@ -25,6 +25,11 @@ after 'run' => sub {
     $self->result->end_time(DateTime->now);
 };
 
+before 'parseOutput' => sub {
+    my $self = shift;
+    confess "Not (successul) run!" unless ($self->result->successful_run);
+};
+
 after 'cleanup' => sub {
     my $self = shift;
     $self->prepared(0);
@@ -40,6 +45,10 @@ sub cleanup {
 
 sub run {
     confess "Run routine empty";
+}
+
+sub parseOutput {
+    confess "Output parsing routine empty";
 }
 
 sub DEMOLISH {
