@@ -5,6 +5,7 @@ Random Prerequisites:
 *) File::Which (libfile-which-perl)
 *) DateTime (libdatetime-perl)
 *) SysBench: http://sysbench.sourceforge.net/
+*) Try::Tiny (libtry-tiny-perl, >=squeeze)
 
 buildfarm stuff:
 

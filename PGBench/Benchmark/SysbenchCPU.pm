@@ -13,7 +13,6 @@ sub BUILD {
 
     $self->bench_args($self->bench_args . ' --test=cpu'
             . ' --cpu-max-prime=' . $self->max_prime
-            . ' run'
             );
     $self->result(PGBench::Result::SysbenchCPU->new());
 }

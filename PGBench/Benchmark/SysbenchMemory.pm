@@ -23,7 +23,6 @@ sub BUILD {
             . ' --memory-hugetlb=' . $self->hugetlb
             . ' --memory-oper=' . $self->oper
             . ' --memory-access-mode=' . $self->access_mode
-            . ' run'
             );
     $self->result(PGBench::Result::SysbenchMemory->new());
 }

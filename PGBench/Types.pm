@@ -9,7 +9,7 @@ type 'PgBranchName'
         => message { "String '$_' doesn't look like a Pg branch name" };
 
 type 'BenchName'
-        => where { m/^(Sysbench(CPU|Memory))$/ }
+        => where { m/^(Sysbench(CPU|Memory|FileIO))$/ }
         => message { "String '$_' doesn't look like a benchmark name" };
 
 type 'ExistingDir'

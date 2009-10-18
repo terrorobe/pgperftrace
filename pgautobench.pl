@@ -32,6 +32,7 @@ my ( $mode ) = @ARGV;
 if ( $mode eq 'job' ) {
 
     my $joblist = JobList->new();
+    if (1) {
     $joblist->add_job(
             db_branch => $opt{'release'},
             db_compile_config => $opt{'configure-opts'},
@@ -50,6 +51,14 @@ if ( $mode eq 'job' ) {
             benchmark => 'SysbenchMemory',
             benchmark_opts => {
                 max_time => 5,
+                },
+            );
+    }
+
+    $joblist->add_job(
+            benchmark => 'SysbenchFileIO',
+            benchmark_opts => {
+                test_mode => 'rndrd',
                 },
             );
 

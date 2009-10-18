@@ -3,6 +3,7 @@ package PGBench::Benchmark::Sysbench;
 use Moose::Role;
 use File::Which;
 use File::Basename;
+use Try::Tiny;
 
 use PGBench::Executor;
 
@@ -67,8 +68,19 @@ sub _build_sysbench {
 sub run {
     my $self = shift;
 
-    my $executor = Executor->new(confessOnError => 0);
-    my $command = $self->sysbench . $self->bench_args;
+    my %opts;
+    $opts{'confessOnError'} = 0;
+
+# FIXME: workdir only exists for filetests here...
+    try {
+        if ($self->workdir) {
+            $opts{'changeWD'} = $self->workdir;
+        }
+    };
+
+
+    my $executor = Executor->new(%opts);
+    my $command = $self->sysbench . $self->bench_args . ' run';
 
     my $success = $executor->runCommand($command);
     $self->output([ split /\n/, $executor->output ]);
