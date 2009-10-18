@@ -94,10 +94,9 @@ sub parseOutput {
     my $RE_throughput = qr/
         Read\s+([.\d]+)$units
         \s+Written\s+([.\d]+)$units
-        \s+Total\s+transferred\+s([.\d]+)$units
+        \s+Total\s+transferred\s+([.\d]+)$units
         \s+\(([.\d]+)$units\/sec
         /x;
-
 
     for my $line (@{$self->output}) {
 
@@ -109,9 +108,11 @@ sub parseOutput {
         }
 
         elsif ($line =~ m/$RE_throughput/) {
+            print "I matched!\n\n\n";
             $self->result->read_transfer(_translate_unit($1, $2));
             $self->result->write_transfer(_translate_unit($3, $4));
-            $self->result->transer_per_sec(_translate_unit($5, $6));
+            $self->result->total_transfer(_translate_unit($5, $6));
+            $self->result->transfer_per_sec(_translate_unit($7, $8));
         }
 
         elsif ($line =~ m/([.\d]+)\s+Requests\/sec\s+executed/) {

@@ -58,6 +58,7 @@ if ( $mode eq 'job' ) {
     $joblist->add_job(
             benchmark => 'SysbenchFileIO',
             benchmark_opts => {
+                threads => 10,
                 test_mode => 'rndrd',
                 },
             );
