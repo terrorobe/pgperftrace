@@ -1,0 +1,7 @@
+Random Prerequisites:
+
+*) Moose (libmoose-perl)
+*) File::Slurp (libfile-slurp-perl)
+*) File::Which (libfile-which-perl)
+*) DateTime (libdatetime-perl)
+*) SysBench: http://sysbench.sourceforge.net/
