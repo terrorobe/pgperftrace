@@ -20,6 +20,10 @@
     Navigation:
     <ul>
         <li><a href="[% c.uri_for('/') %]" title="Home">Home</a></li>
+        <li><a href="[% c.uri_for('/batch') %]" title="Batches">Batches</a></li>
+        <li><a href="[% c.uri_for('/job') %]" title="Jobs">Jobs</a></li>
+        <li><a href="[% c.uri_for('/result') %]" title="Results">Results</a></li>
+        <li><a href="[% c.uri_for('/client') %]" title="Clients">Clients</a></li>
     </ul>
 </div><!-- end menu -->
 
