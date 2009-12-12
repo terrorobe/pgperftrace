@@ -1,4 +1,4 @@
-Random Prerequisites:
+PGBench Prerequisites:
 
 *) Moose (libmoose-perl)
 *) File::Slurp (libfile-slurp-perl)
@@ -11,3 +11,10 @@ buildfarm stuff:
 
 *) CVS Login (FIXME -- 'cvs -d :pserver:anoncvs@anoncvs.postgresql.org:/projects/cvsroot login')
 *) build-essential bison flex libreadline-dev libxml2-dev libxslt1-dev libldap2-dev tcl-dev
+
+Catalyst Prerequisites:
+
+*) libcatalyst-perl
+*) libcatalyst-modules-perl
+*) libtemplate-perl
+*) libdbix-class-timestamp-perl

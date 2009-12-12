@@ -7,7 +7,7 @@ __PACKAGE__->config(
     schema_class => 'BenchFarm::Schema',
     
     connect_info => {
-        dsn => 'dbi:Pg:dbname=robe',
+        dsn => 'dbi:Pg:dbname=robe;host=localhost;user=robe',
         user => '',
         password => '',
     }
