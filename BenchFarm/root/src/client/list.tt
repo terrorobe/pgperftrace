@@ -1,0 +1,19 @@
+[% META title = 'Client List' -%]
+
+
+<table>
+<tr><th>Id</th><th>Name</th><th>Maintainer</th><th>Server Model</th><th>CPU</th><th>RAM</th><th>Storage</th><th>OS</th></tr>
+
+[% FOREACH client IN clients -%]
+<tr>
+        <td>[% client.id %]</td>
+	<td>[% client.name %]</td>
+	<td>[% client.maintainer.name %]</td>
+        <td>[% client.servermodel %]</td>
+        <td>[% client.processor %]</td>
+        <td>[% client.ram %]</td>
+        <td>[% client.storage %]</td>
+        <td>[% client.os %]</td>
+</tr>
+[% END -%]
+</table>

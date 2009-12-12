@@ -28,6 +28,16 @@ sub index :Path :Args(0) {
 }
 
 
+
+sub list : Local : Args(0) {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{results} = [$c->model('DB::Result')->all];
+
+    $c->stash->{template} = 'result/list.tt';
+
+}
+
 =head1 AUTHOR
 
 robe,,,

@@ -27,6 +27,14 @@ sub index :Path :Args(0) {
     $c->response->body('Matched BenchFarm::Controller::Batch in Batch.');
 }
 
+sub list : Local : Args(0) {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{batches} = [$c->model('DB::Batch')->all];
+
+    $c->stash->{template} = 'batch/list.tt';
+}
+
 
 =head1 AUTHOR
 

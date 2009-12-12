@@ -27,6 +27,14 @@ sub index :Path :Args(0) {
     $c->response->body('Matched BenchFarm::Controller::Client in Client.');
 }
 
+sub list : Local : Args(0) {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{clients} = [$c->model('DB::BenchClient')->all];
+
+    $c->stash->{template} = 'client/list.tt';
+
+}
 
 =head1 AUTHOR
 

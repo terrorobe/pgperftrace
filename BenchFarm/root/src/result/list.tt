@@ -1,0 +1,19 @@
+[% META title = 'Result List' -%]
+
+
+<table>
+<tr><th>Id</th><th>Job</th><th>Client</th><th>Benchtype</th><th>System Information</th><th>Benchmark Runtime Information</th><th>Raw Output</th><th>Parsed Output</th></tr>
+
+[% FOREACH result IN results -%]
+<tr>
+        <td>[% result.id %]</td>
+	<td>[% result.job.id %]</td>
+	<td>[% result.job.benchclient.name %]</td>
+        <td>[% result.job.benchtype %]</td>
+        <td>[% result.systeminfo %]</td>
+        <td>[% result.benchruninfo %]</td>
+        <td>[% result.raw_output %]</td>
+        <td>[% result.parsed_output %]</td>
+</tr>
+[% END -%]
+</table>

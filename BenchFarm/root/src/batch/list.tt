@@ -1,0 +1,17 @@
+[% META title = 'Batch List' -%]
+
+
+<table>
+<tr><th>Id</th><th>Name</th><th>Submitter</th><th>Status</th><th>Created</th><th>Completed</th></tr>
+
+[% FOREACH batch IN batches -%]
+<tr>
+        <td>[% batch.id %]</td>
+	<td>[% batch.name %]</td>
+	<td>[% batch.submitter.name %]</td>
+        <td>[% batch.status %]</td>
+        <td>[% batch.created_at %]</td>
+        <td>[% batch.completed_at %]</td>
+</tr>
+[% END -%]
+</table>
