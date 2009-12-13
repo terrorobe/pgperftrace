@@ -1,3 +1,4 @@
+[% META title = 'PostgreSQL Benchfarm' -%]
 <h1>Welcome</h1>
 
 <img src="[% c.uri_for('/static/images/bauschepfa.gif') %]" />

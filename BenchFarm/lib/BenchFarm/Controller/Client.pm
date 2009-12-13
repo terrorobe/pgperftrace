@@ -24,7 +24,7 @@ Catalyst Controller.
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    $c->response->body('Matched BenchFarm::Controller::Client in Client.');
+    $c->forward('list');
 }
 
 sub list : Local : Args(0) {
