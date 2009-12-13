@@ -6,6 +6,7 @@ PGBench Prerequisites:
 *) DateTime (libdatetime-perl)
 *) SysBench: http://sysbench.sourceforge.net/
 *) Try::Tiny (libtry-tiny-perl, >=squeeze)
+*) JSON (libjson-perl)
 
 buildfarm stuff:
 

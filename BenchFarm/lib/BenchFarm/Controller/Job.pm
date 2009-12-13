@@ -79,8 +79,6 @@ sub get_next_job :Chained('client') :PathPart('get_next_job') :Args(0) {
         ->limit(1)
         ->single;
 
-# FIXME: ORDER BY...
-
     $c->stash->{JSON} = {
         id => $job->id,
         benchmark => $job->benchtype,

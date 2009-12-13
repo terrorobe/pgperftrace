@@ -30,6 +30,7 @@ our $VERSION = '0.01';
 
 __PACKAGE__->config(
         name => 'BenchFarm',
+        default_view => 'TT',
         'View::JSON' => {
                 expose_stash    => [ qw(JSON) ],
                 },
