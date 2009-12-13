@@ -28,7 +28,12 @@ our $VERSION = '0.01';
 # with an external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( name => 'BenchFarm' );
+__PACKAGE__->config(
+        name => 'BenchFarm',
+        'View::JSON' => {
+                expose_stash    => [ qw(JSON) ],
+                },
+        );
 
 # Start the application
 __PACKAGE__->setup();

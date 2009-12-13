@@ -86,5 +86,6 @@ __PACKAGE__->has_many(
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0RQVTnvPYVD75bFNQPxg3Q
 
 
-# You can replace this text with custom content, and it will be preserved on regeneration
+
+__PACKAGE__->resultset_class('BenchFarm::Schema::ResultSet::Benchclient');
 1;
