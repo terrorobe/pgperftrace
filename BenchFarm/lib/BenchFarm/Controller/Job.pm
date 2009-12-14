@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 
+use JSON;
+
 =head1 NAME
 
 BenchFarm::Controller::Job - Catalyst Controller
@@ -99,6 +101,47 @@ Update the status of a job
 sub update_job {
     my ( $self, $c ) = @_;
 
+}
+
+
+=head2 form_create
+
+Create a new job
+
+=cut
+
+sub form_create :Local :Args(0) {
+    my ($self, $c) = @_;
+
+    $c->stash->{template} = 'job/form_create.tt';
+
+}
+
+sub form_create_do :Local :Args(0) {
+    my ($self, $c) = @_;
+
+    my %benchconfig;
+    my $benchtype;
+
+    $benchtype = $c->request->params->{benchmarktype};
+    $benchconfig{'database'}->{'release'} = $c->request->params->{databaserelease};
+
+
+    for my $line (split /\n/, $c->request->params->{benchmark}) {
+
+        my ($key, $value) = $line =~ m/^(\w+):\s+(.*)/;
+        $benchconfig{'benchmark'}->{'option'}->{$key} = $value if ($key && $value);
+    }
+
+    my $job = $c->model('DB::Job')->create({
+            batch => 1,
+            benchclient => 1,
+            benchtype => $benchtype,
+            benchconfig => to_json(\%benchconfig),
+            status => 'open',
+            });
+
+    $c->forward('list');
 }
 
 =head1 AUTHOR

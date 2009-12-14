@@ -73,6 +73,10 @@ __PACKAGE__->has_many(
 # Created by DBIx::Class::Schema::Loader v0.04005 @ 2009-12-11 12:05:39
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KhqrgGOut/YAGF9EakaHLA
 
+__PACKAGE__->add_columns(
+        "created_at",
+        { data_type => 'datetime', set_on_create => 1 },
+        );
 
 __PACKAGE__->resultset_class('BenchFarm::Schema::ResultSet::Job');
 1;

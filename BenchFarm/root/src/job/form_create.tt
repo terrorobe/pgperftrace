@@ -1,0 +1,12 @@
+[% META title = 'Create a new Job' -%]
+
+<form method="post" action="[% c.uri_for('form_create_do') %]">
+<table>
+<tr><td>Database release:</td><td><input type="text" name="databaserelease"></td></tr>
+<tr><td>Benchmark type:</td><td><input type="text" name="benchmarktype"></td></tr>
+<tr><td>Benchmark options:</td><td><textarea name="benchmark" cols="80" rows="10">
+#Whatever
+</textarea></td></tr>
+</table>
+<input type="submit" name="Submit" value="Submit">
+</form>

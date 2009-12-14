@@ -11,24 +11,20 @@ use PGBench::Communicator;
 use Data::Dumper;
 
 
-my $client = 'testclient';
-
-my $ua = LWP::UserAgent->new;
 
 while (1) {
 
-
-    print "Fetching next job\n";
-
-    my $stuff = fetch_next_job();
-
-    print Dumper $stuff;
-
+    print "Doing next job\n";
+    do_next_job();
     sleep 60;
-
-
 }
 
+
+sub do_next_job {
+
+    my $foo = fetch_next_job();
+
+}
 
 sub fetch_next_job {
     my $communicator = Communicator->new;
